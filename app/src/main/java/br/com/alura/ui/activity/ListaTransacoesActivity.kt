@@ -2,14 +2,14 @@ package br.com.alura.ui.activity
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import br.com.alura.R
+import br.com.alura.model.Resumo
 import br.com.alura.model.Tipo
 import br.com.alura.model.Transacao
+import br.com.alura.ui.ResumoView
 import br.com.alura.ui.adapter.TransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import java.math.BigDecimal
-import java.util.*
 
 class ListaTransacoesActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +17,10 @@ class ListaTransacoesActivity : Activity() {
         setContentView(R.layout.activity_lista_transacoes)
 
         val transacoes = transacoesDeExemplo()
+
+        val view = window.decorView
+        val resumoView = ResumoView(this, view, transacoes)
+        resumoView.atuliza()
 
         configuraLista(transacoes)
     }
@@ -39,6 +43,16 @@ class ListaTransacoesActivity : Activity() {
             ),
             Transacao(
                 valor = BigDecimal("50.0"),
+                categoria = "Despesa",
+                tipo = Tipo.DESPESA
+            ),
+            Transacao(
+                valor = BigDecimal("500.0"),
+                categoria = "Receita",
+                tipo = Tipo.RECEITA
+            ),
+            Transacao(
+                valor = BigDecimal("500.0"),
                 categoria = "Despesa",
                 tipo = Tipo.DESPESA
             )
