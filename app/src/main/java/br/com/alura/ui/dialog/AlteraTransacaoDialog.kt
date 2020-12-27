@@ -23,17 +23,17 @@ class AlteraTransacaoDialog(
     private val context: Context
 ) {
     private val viewDoDialog = criaLayout()
-    fun chama(transacao:Transacao, transacaoDelegate: TransacaoDelegate) {
-
+    fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+        val tipo = transacao.tipo
+        configuraCategoria(tipo)
+        configuraCampoData()
+        configuraFormulario(tipo, transacaoDelegate)
         campoValor.setText(transacao.valor.toString())
         campoData.setText(transacao.data.formatoBrasileiro())
         val indice =
-            context.resources.getStringArray(categoriaPor(transacao.tipo)).indexOf(transacao.categoria)
-        campoCategoria.setSelection(indice,true)
+            context.resources.getStringArray(categoriaPor(tipo)).indexOf(transacao.categoria)
+        campoCategoria.setSelection(indice, true)
 
-        configuraCategoria(transacao.tipo)
-        configuraCampoData()
-        configuraFormulario(transacao.tipo, transacaoDelegate)
     }
 
     private val campoValor = viewDoDialog.form_transacao_valor
@@ -48,7 +48,7 @@ class AlteraTransacaoDialog(
         AlertDialog.Builder(context)
             .setTitle(titulo)
             .setView(viewDoDialog)
-            .setPositiveButton("Adicionar") { _, _ ->
+            .setPositiveButton("Alterar") { _, _ ->
                 val valorTexto = campoValor.text.toString()
                 val dataTexto = campoData.text.toString()
                 val categoriaTexto = campoCategoria.selectedItem.toString()
@@ -67,7 +67,7 @@ class AlteraTransacaoDialog(
     }
 
     private fun tituloPor(tipo: Tipo) =
-        if (tipo == Tipo.RECEITA) R.string.adiciona_receita else R.string.adiciona_despesa
+        if (tipo == Tipo.RECEITA) R.string.altera_receita else R.string.altera_despesa
 
     private fun converteCampoValor(valorEmTexto: String): BigDecimal {
         return try {

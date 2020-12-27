@@ -42,7 +42,8 @@ class ListaTransacoesActivity : Activity() {
             object :
                 TransacaoDelegate {
                 override fun delegate(transacao: Transacao) {
-                    atualizaTranscaoes(transacao)
+                    transacoes.add(transacao)
+                    atualizaTranscaoes()
                     lista_transacoes_adiciona_menu.close(true)
                 }
 
@@ -50,8 +51,7 @@ class ListaTransacoesActivity : Activity() {
     }
 
 
-    private fun atualizaTranscaoes(transacaoCriada: Transacao) {
-        transacoes.add(transacaoCriada)
+    private fun atualizaTranscaoes() {
         configuraLista()
         configuraResumo()
     }
@@ -67,9 +67,10 @@ class ListaTransacoesActivity : Activity() {
         lista_transacoes_listview.setOnItemClickListener { parent, view, position, id ->
             val transacao = transacoes[position]
             AlteraTransacaoDialog(window.decorView as ViewGroup, this)
-                .chama(transacao,object  : TransacaoDelegate{
+                .chama(transacao, object : TransacaoDelegate {
                     override fun delegate(transacao: Transacao) {
-                        atualizaTranscaoes(transacao)
+                        transacoes[position] = transacao
+                        atualizaTranscaoes()
                     }
 
                 })
