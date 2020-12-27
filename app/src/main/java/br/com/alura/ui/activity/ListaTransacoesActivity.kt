@@ -19,6 +19,9 @@ class ListaTransacoesActivity : Activity() {
     private val viewDaActivity by lazy {
         window.decorView
     }
+    private val viewGroupDaActivity by lazy {
+        viewDaActivity as ViewGroup
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,7 @@ class ListaTransacoesActivity : Activity() {
 
     private fun chamaDialogDeAdicao(tipo: Tipo) {
         AdicionaTransacaoDialog(
-            viewDaActivity as ViewGroup,
+            viewGroupDaActivity,
             this
         ).chama(tipo,
             object :
@@ -81,7 +84,7 @@ class ListaTransacoesActivity : Activity() {
     }
 
     private fun chamaDialogDeAlteracao(transacao: Transacao, posicao: Int) {
-        AlteraTransacaoDialog(viewDaActivity as ViewGroup, this)
+        AlteraTransacaoDialog(viewGroupDaActivity, this)
             .chama(transacao, object : TransacaoDelegate {
                 override fun delegate(transacao: Transacao) {
                     altera(posicao, transacao)
