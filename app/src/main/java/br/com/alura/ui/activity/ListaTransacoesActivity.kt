@@ -6,8 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import br.com.alura.R
+import br.com.alura.dao.TransacaoDAO
 import br.com.alura.model.Tipo
 import br.com.alura.model.Transacao
 import br.com.alura.ui.ResumoView
@@ -17,7 +17,8 @@ import br.com.alura.ui.dialog.AlteraTransacaoDialog
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 
 class ListaTransacoesActivity : Activity() {
-    private val transacoes: MutableList<Transacao> = mutableListOf()
+    private val dao = TransacaoDAO()
+    private val transacoes = dao.transacoes
     private val viewDaActivity by lazy {
         window.decorView
     }
@@ -57,7 +58,7 @@ class ListaTransacoesActivity : Activity() {
     }
 
     private fun adiciona(transacao: Transacao) {
-        transacoes.add(transacao)
+        dao.adiciona(transacao)
         atualizaTranscaoes()
     }
 
@@ -96,7 +97,7 @@ class ListaTransacoesActivity : Activity() {
     }
 
     private fun remove(posicao: Int) {
-        transacoes.removeAt(posicao)
+        dao.remove(posicao)
         atualizaTranscaoes()
     }
 
@@ -109,8 +110,8 @@ class ListaTransacoesActivity : Activity() {
 
     }
 
-    private fun altera(position: Int, transacao: Transacao) {
-        transacoes[position] = transacao
+    private fun altera(posicao: Int, transacao: Transacao) {
+        dao.altera(transacao,posicao)
         atualizaTranscaoes()
     }
 
