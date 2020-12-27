@@ -3,7 +3,6 @@ package br.com.alura.ui.dialog
 import android.content.Context
 import android.view.ViewGroup
 import br.com.alura.R
-import br.com.alura.delegate.TransacaoDelegate
 import br.com.alura.extension.formatoBrasileiro
 import br.com.alura.model.Tipo
 import br.com.alura.model.Transacao
@@ -16,9 +15,9 @@ class AlteraTransacaoDialog(
     override val tituloBotaoPositivo: String
         get() = "Alterar"
 
-    fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
+    fun chama(transacao: Transacao, delegate: (transacao: Transacao) -> Unit) {
         val tipo = transacao.tipo
-        super.chama(tipo, transacaoDelegate)
+        super.chama(tipo, delegate)
 
         inicializaCampos(transacao)
     }

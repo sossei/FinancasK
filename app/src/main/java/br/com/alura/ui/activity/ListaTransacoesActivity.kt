@@ -2,10 +2,8 @@ package br.com.alura.ui.activity
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
 import br.com.alura.R
-import br.com.alura.delegate.TransacaoDelegate
 import br.com.alura.model.Tipo
 import br.com.alura.model.Transacao
 import br.com.alura.ui.ResumoView
@@ -46,15 +44,12 @@ class ListaTransacoesActivity : Activity() {
         AdicionaTransacaoDialog(
             viewGroupDaActivity,
             this
-        ).chama(tipo,
-            object :
-                TransacaoDelegate {
-                override fun delegate(transacao: Transacao) {
-                    adiciona(transacao)
-                    lista_transacoes_adiciona_menu.close(true)
-                }
-
-            })
+        ).chama(
+            tipo
+        ) { transcaoCriada ->
+            adiciona(transcaoCriada)
+            lista_transacoes_adiciona_menu.close(true)
+        }
     }
 
     private fun adiciona(transacao: Transacao) {
@@ -85,12 +80,11 @@ class ListaTransacoesActivity : Activity() {
 
     private fun chamaDialogDeAlteracao(transacao: Transacao, posicao: Int) {
         AlteraTransacaoDialog(viewGroupDaActivity, this)
-            .chama(transacao, object : TransacaoDelegate {
-                override fun delegate(transacao: Transacao) {
-                    altera(posicao, transacao)
-                }
+            .chama(transacao)
+            { transacaoAlterada ->
+                altera(posicao, transacaoAlterada)
+            }
 
-            })
     }
 
     private fun altera(position: Int, transacao: Transacao) {
