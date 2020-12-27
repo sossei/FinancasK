@@ -18,15 +18,22 @@ import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.util.*
 
-class AdicionaTransacaoDialog(
+class AlteraTransacaoDialog(
     private val viewGroup: ViewGroup,
     private val context: Context
 ) {
     private val viewDoDialog = criaLayout()
-    fun chama(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
-        configuraCategoria(tipo)
+    fun chama(transacao:Transacao, transacaoDelegate: TransacaoDelegate) {
+
+        campoValor.setText(transacao.valor.toString())
+        campoData.setText(transacao.data.formatoBrasileiro())
+        val indice =
+            context.resources.getStringArray(categoriaPor(transacao.tipo)).indexOf(transacao.categoria)
+        campoCategoria.setSelection(indice,true)
+
+        configuraCategoria(transacao.tipo)
         configuraCampoData()
-        configuraFormulario(tipo, transacaoDelegate)
+        configuraFormulario(transacao.tipo, transacaoDelegate)
     }
 
     private val campoValor = viewDoDialog.form_transacao_valor
